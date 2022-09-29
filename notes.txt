@@ -15,9 +15,19 @@ go install github.com/google/wire/cmd/wire@latest
 go get github.com/gin-contrib/cors
 go get github.com/rs/cors
 
+go get github.com/stretchr/testify
 
 //Dependency injection
 wire gen dailyreport
 
+
 //Run updated code automatically
 CompileDaemon -command="./dailyreport"
+
+
+//Unit Test
+go test -v ./...
+go test -v
+go test -v -run TestFunctionName
+go test -v -run TestFunctionName/NamaSubTest
+go test -run /NamaSubTest

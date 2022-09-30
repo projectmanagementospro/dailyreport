@@ -4,8 +4,10 @@ import (
 	"dailyreport/helper"
 	"dailyreport/models/web"
 	"dailyreport/service"
+	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -47,15 +49,26 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 		return
 	}
 	dreport, err := c.dailyreportService.FindById(uint(id))
+
+	t1 := time.Now()
+	t2 := t1.Add(time.Second * 341)
+
+	fmt.Println(t1)
+	fmt.Println(t2)
+
+	diff := t2.Sub(t1)
+	//fmt.Println(diff)
+
 	ok = helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
 	webResponse := web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "Success",
-		Errors: "",
-		Data:   dreport,
+		Code:     http.StatusOK,
+		Status:   "Success",
+		Errors:   "",
+		Data:     dreport,
+		Duration: diff,
 	}
 	context.JSON(http.StatusOK, webResponse)
 }

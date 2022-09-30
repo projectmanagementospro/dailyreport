@@ -50,14 +50,19 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 	}
 	dreport, err := c.dailyreportService.FindById(uint(id))
 
-	t1 := time.Now()
-	t2 := t1.Add(time.Second * 341)
+	// t1 := time.Now()
+	// t2 := t1.Add(time.Second * 341)
+
+	t1 := dreport.StartTime
+	t2 := dreport.EndTime
 
 	fmt.Println(t1)
 	fmt.Println(t2)
 
 	diff := t2.Sub(t1)
-	//fmt.Println(diff)
+
+	out := time.Time{}.Add(diff)
+	fmt.Println(out.Format("15:04:05"))
 
 	ok = helper.NotFoundError(context, err)
 	if ok {
@@ -68,7 +73,7 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 		Status:   "Success",
 		Errors:   "",
 		Data:     dreport,
-		Duration: diff,
+		Duration: out.Format("15:04:05"),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }

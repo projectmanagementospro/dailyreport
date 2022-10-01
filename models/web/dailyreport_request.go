@@ -18,7 +18,7 @@ type DailyReportRequest struct {
 
 type DailyReportUpdateRequest struct {
 	ID           uint      `json:"id" binding:"required"`
-	ReportNumber uint64    `json:"report_number" binding:"required"`
+	ReportNumber uint64    `json:"report_number"`
 	Name         string    `json:"name" binding:"required"`
 	Description  string    `json:"description"`
 	User_id      uint64    `json:"user_id"`

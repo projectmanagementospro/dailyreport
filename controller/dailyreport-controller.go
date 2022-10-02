@@ -54,7 +54,7 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 		layoutISO = "2006-01-02"
 		layoutUS  = "January 2, 2006"
 	)
-	date := dreport.UpdatedAt
+	date := dreport.CreatedAt
 	// t, _ := time.Parse(layoutISO, date)
 
 	// dreport.StartTime.Format(time.Kitchen)
@@ -103,7 +103,7 @@ func (c *dailyreportController) Insert(context *gin.Context) {
 		layoutISO = "2006-01-02"
 		layoutUS  = "January 2, 2006"
 	)
-	date := dreport.UpdatedAt
+	date := dreport.CreatedAt
 
 	t1 := dreport.StartTime
 	t2 := dreport.EndTime
@@ -148,7 +148,7 @@ func (c *dailyreportController) Update(context *gin.Context) {
 		layoutISO = "2006-01-02"
 		layoutUS  = "January 2, 2006"
 	)
-	date := dreport.UpdatedAt
+	date := dreport.CreatedAt
 
 	t1 := dreport.StartTime
 	t2 := dreport.EndTime

@@ -53,7 +53,7 @@ func (s *dailyreportService) Update(b web.DailyReportUpdateRequest) (domain.Dail
 	if err != nil {
 		return dailyreport, err
 	}
-	//dailyreport.ID = res.ID
+	dailyreport.ReportNumber = res.ReportNumber
 	dailyreport.User_id = res.User_id
 	return s.dailyreportRepository.Update(dailyreport), nil
 }

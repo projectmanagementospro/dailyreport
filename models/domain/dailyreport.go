@@ -8,7 +8,7 @@ import (
 
 type DailyReport struct {
 	gorm.Model
-	ReportNumber uint64    `json:"report_number" gorm:"autoIncrement"`
+	ReportNumber uint      `json:"report_number" gorm:"primaryKey;autoIncrement:true"`
 	Name         string    `json:"name" gorm:"type:varchar(255);not null"`
 	Description  string    `json:"description" gorm:"type:varchar(255);not null"`
 	User_id      uint64    `json:"user_id" gorm:"type:uint;not null"`

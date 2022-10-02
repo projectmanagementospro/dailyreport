@@ -35,7 +35,7 @@ func (c *DailyReportConnection) Create(d domain.DailyReport) domain.DailyReport 
 }
 
 func (c *DailyReportConnection) Update(d domain.DailyReport) domain.DailyReport {
-	c.connection.Save(&d)
+	c.connection.Omit("created_at").Save(&d)
 	return d
 }
 

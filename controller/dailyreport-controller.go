@@ -50,17 +50,18 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 	}
 	dreport, err := c.dailyreportService.FindById(uint(id))
 
-	t1 := dreport.StartTime
-	t2 := dreport.EndTime
-
-	// const (
-	// 	layoutISO = "2006-01-02"
-	// 	layoutUS  = "January 2, 2006"
-	// )
-	// dreport.Date.Format(layoutUS)
+	const (
+		layoutISO = "2006-01-02"
+		layoutUS  = "January 2, 2006"
+	)
+	date := dreport.UpdatedAt
+	// t, _ := time.Parse(layoutISO, date)
 
 	// dreport.StartTime.Format(time.Kitchen)
 	// dreport.EndTime.Format(time.Kitchen)
+
+	t1 := dreport.StartTime
+	t2 := dreport.EndTime
 
 	fmt.Println(t1)
 	fmt.Println(t2)
@@ -79,6 +80,7 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 		Status:   "Success",
 		Errors:   "",
 		Data:     dreport,
+		Date:     date.Format(layoutUS),
 		Duration: out.Format("15:04:05"),
 	}
 	context.JSON(http.StatusOK, webResponse)
@@ -97,6 +99,12 @@ func (c *dailyreportController) Insert(context *gin.Context) {
 
 	dreport, err := c.dailyreportService.Create(u)
 
+	const (
+		layoutISO = "2006-01-02"
+		layoutUS  = "January 2, 2006"
+	)
+	date := dreport.UpdatedAt
+
 	t1 := dreport.StartTime
 	t2 := dreport.EndTime
 
@@ -114,6 +122,7 @@ func (c *dailyreportController) Insert(context *gin.Context) {
 		Status:   "Success",
 		Errors:   "",
 		Data:     dreport,
+		Date:     date.Format(layoutUS),
 		Duration: out.Format("15:04:05"),
 	}
 	context.JSON(http.StatusOK, webResponse)
@@ -135,6 +144,12 @@ func (c *dailyreportController) Update(context *gin.Context) {
 	}
 	dreport, err := c.dailyreportService.Update(u)
 
+	const (
+		layoutISO = "2006-01-02"
+		layoutUS  = "January 2, 2006"
+	)
+	date := dreport.UpdatedAt
+
 	t1 := dreport.StartTime
 	t2 := dreport.EndTime
 
@@ -152,6 +167,7 @@ func (c *dailyreportController) Update(context *gin.Context) {
 		Status:   "Success",
 		Errors:   "",
 		Data:     dreport,
+		Date:     date.Format(layoutUS),
 		Duration: out.Format("15:04:05"),
 	}
 	context.JSON(http.StatusOK, webResponse)
@@ -170,10 +186,12 @@ func (c *dailyreportController) Delete(context *gin.Context) {
 		return
 	}
 	webResponse := web.WebResponse{
-		Code:   http.StatusOK,
-		Status: "Success",
-		Errors: "",
-		Data:   "Daily report has been removed",
+		Code:     http.StatusOK,
+		Status:   "Success",
+		Errors:   "",
+		Data:     "Daily report has been removed",
+		Date:     "Outdated",
+		Duration: "Vanished",
 	}
 	context.JSON(http.StatusOK, webResponse)
 }

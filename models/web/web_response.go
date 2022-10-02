@@ -5,5 +5,6 @@ type WebResponse struct {
 	Status   string      `json:"status"`
 	Errors   interface{} `json:"errors"`
 	Data     interface{} `json:"data"`
+	Date     string      `json:"date"`
 	Duration string      `json:"duration"`
 }

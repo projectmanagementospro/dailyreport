@@ -13,7 +13,6 @@ type DailyReport struct {
 	Description  string    `json:"description" gorm:"type:varchar(255);not null"`
 	User_id      uint64    `json:"user_id" gorm:"type:uint;not null"`
 	Location     string    `json:"location"`
-	Date         time.Time `json:"date"`
 	StartTime    time.Time `json:"start_time"`
 	EndTime      time.Time `json:"end_time"`
 	UpdatedBy    string    `json:"updated_by"`

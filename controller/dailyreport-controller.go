@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -65,11 +64,12 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 
 	fmt.Println(t1)
 	fmt.Println(t2)
+	fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
 
 	diff := t2.Sub(t1)
 
-	out := time.Time{}.Add(diff)
-	fmt.Println(out.Format("15:04:05"))
+	// out := time.Time{}.Add(diff)
+	// fmt.Println(out.Format("15:04:05"))
 
 	ok = helper.NotFoundError(context, err)
 	if ok {
@@ -81,7 +81,7 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 		Errors:   "",
 		Data:     dreport,
 		Date:     date.Format(layoutUS),
-		Duration: out.Format("15:04:05"),
+		Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
@@ -107,11 +107,11 @@ func (c *dailyreportController) Insert(context *gin.Context) {
 
 	t1 := dreport.StartTime
 	t2 := dreport.EndTime
-
+	fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
 	diff := t2.Sub(t1)
 
-	out := time.Time{}.Add(diff)
-	fmt.Println(out.Format("15:04:05"))
+	// out := time.Time{}.Add(diff)
+	// fmt.Println(out.Format("15:04:05"))
 
 	ok = helper.InternalServerError(context, err)
 	if ok {
@@ -123,7 +123,7 @@ func (c *dailyreportController) Insert(context *gin.Context) {
 		Errors:   "",
 		Data:     dreport,
 		Date:     date.Format(layoutUS),
-		Duration: out.Format("15:04:05"),
+		Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
@@ -152,11 +152,10 @@ func (c *dailyreportController) Update(context *gin.Context) {
 
 	t1 := dreport.StartTime
 	t2 := dreport.EndTime
-
+	fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
 	diff := t2.Sub(t1)
 
-	out := time.Time{}.Add(diff)
-	fmt.Println(out.Format("15:04:05"))
+	// out := time.Time{}.Add(diff)
 
 	ok = helper.InternalServerError(context, err)
 	if ok {
@@ -168,7 +167,7 @@ func (c *dailyreportController) Update(context *gin.Context) {
 		Errors:   "",
 		Data:     dreport,
 		Date:     date.Format(layoutUS),
-		Duration: out.Format("15:04:05"),
+		Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }

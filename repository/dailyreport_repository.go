@@ -9,43 +9,43 @@ import (
 
 type DailyReportRepository interface {
 	All() []domain.DailyReport
-	Create(d domain.DailyReport) domain.DailyReport
-	Update(d domain.DailyReport) domain.DailyReport
-	Delete(d domain.DailyReport)
+	Create(dailyreport domain.DailyReport) domain.DailyReport
+	Update(dailyreport domain.DailyReport) domain.DailyReport
+	Delete(dailyreport domain.DailyReport)
 	FindById(id uint) (domain.DailyReport, error)
 }
 
 type DailyReportConnection struct {
-	connection *gorm.DB
+	dbConnect *gorm.DB //connect to database
 }
 
-func NewDailyReportRepository(connection *gorm.DB) DailyReportRepository {
-	return &DailyReportConnection{connection: connection}
+func NewDailyReportRepository(db *gorm.DB) DailyReportRepository {
+	return &DailyReportConnection{dbConnect: db} //connect database to interface
 }
 
-func (c *DailyReportConnection) All() []domain.DailyReport {
+func (conn *DailyReportConnection) All() []domain.DailyReport {
 	var dailyreports []domain.DailyReport
-	c.connection.Find(&dailyreports)
+	conn.dbConnect.Find(&dailyreports)
 	return dailyreports
 }
 
-func (c *DailyReportConnection) Create(d domain.DailyReport) domain.DailyReport {
-	c.connection.Save(&d)
-	return d
+func (conn *DailyReportConnection) Create(dailyreport domain.DailyReport) domain.DailyReport {
+	conn.dbConnect.Save(&dailyreport)
+	return dailyreport
 }
 
-func (c *DailyReportConnection) Update(d domain.DailyReport) domain.DailyReport {
-	c.connection.Omit("created_at").Save(&d)
-	return d
+func (conn *DailyReportConnection) Update(dailyreport domain.DailyReport) domain.DailyReport {
+	conn.dbConnect.Omit("created_at").Save(&dailyreport)
+	return dailyreport
 }
 
-func (c *DailyReportConnection) Delete(d domain.DailyReport) {
-	c.connection.Delete(&d)
+func (conn *DailyReportConnection) Delete(dailyreport domain.DailyReport) {
+	conn.dbConnect.Delete(&dailyreport)
 }
 
-func (c *DailyReportConnection) FindById(id uint) (domain.DailyReport, error) {
+func (conn *DailyReportConnection) FindById(id uint) (domain.DailyReport, error) {
 	var dailyreport domain.DailyReport
-	c.connection.Find(&dailyreport, "id = ?", id)
+	conn.dbConnect.Find(&dailyreport, "id = ?", id)
 	if dailyreport.ID == 0 {
 		return dailyreport, errors.New("id not found")
 	}

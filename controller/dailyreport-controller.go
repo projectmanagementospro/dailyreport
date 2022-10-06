@@ -29,8 +29,8 @@ func NewDailyReportController(dailyreportService service.DailyReportService) Dai
 	}
 }
 
-func (c *dailyreportController) All(context *gin.Context) {
-	dreports := c.dailyreportService.All()
+func (drc *dailyreportController) All(context *gin.Context) {
+	dreports := drc.dailyreportService.All()
 	webResponse := web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Success",
@@ -40,14 +40,14 @@ func (c *dailyreportController) All(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (c *dailyreportController) FindById(context *gin.Context) {
+func (drc *dailyreportController) FindById(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	dreport, err := c.dailyreportService.FindById(uint(id))
+	dreport, err := drc.dailyreportService.FindById(uint(id))
 
 	const (
 		layoutISO = "2006-01-02"
@@ -86,18 +86,18 @@ func (c *dailyreportController) FindById(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (c *dailyreportController) Insert(context *gin.Context) {
-	var u web.DailyReportRequest
+func (drc *dailyreportController) Insert(context *gin.Context) {
+	var request web.DailyReportRequest
 
-	err := context.BindJSON(&u)
+	err := context.BindJSON(&request)
 	ok := helper.ValidationError(context, err)
 	if ok {
 		return
 	}
 
-	u.User_id = 1
+	request.User_id = 1
 
-	dreport, err := c.dailyreportService.Create(u)
+	dreport, err := drc.dailyreportService.Create(request)
 
 	const (
 		layoutISO = "2006-01-02"
@@ -128,21 +128,21 @@ func (c *dailyreportController) Insert(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (c *dailyreportController) Update(context *gin.Context) {
-	var u web.DailyReportUpdateRequest
+func (drc *dailyreportController) Update(context *gin.Context) {
+	var request web.DailyReportUpdateRequest
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	u.ID = uint(id)
-	err = context.BindJSON(&u)
+	request.ID = uint(id)
+	err = context.BindJSON(&request)
 	ok = helper.ValidationError(context, err)
 	if ok {
 		return
 	}
-	dreport, err := c.dailyreportService.Update(u)
+	dreport, err := drc.dailyreportService.Update(request)
 
 	const (
 		layoutISO = "2006-01-02"
@@ -172,14 +172,14 @@ func (c *dailyreportController) Update(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (c *dailyreportController) Delete(context *gin.Context) {
+func (drc *dailyreportController) Delete(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	err = c.dailyreportService.Delete(uint(id))
+	err = drc.dailyreportService.Delete(uint(id))
 	ok = helper.NotFoundError(context, err)
 	if ok {
 		return

@@ -9,9 +9,9 @@ import (
 
 type DailyReportRepository interface {
 	All() []domain.DailyReport
-	Create(dailyreport domain.DailyReport) domain.DailyReport
-	Update(dailyreport domain.DailyReport) domain.DailyReport
-	Delete(dailyreport domain.DailyReport)
+	Create(dReport domain.DailyReport) domain.DailyReport
+	Update(dReport domain.DailyReport) domain.DailyReport
+	Delete(dReport domain.DailyReport)
 	FindById(id uint) (domain.DailyReport, error)
 }
 
@@ -29,25 +29,25 @@ func (conn *DailyReportConnection) All() []domain.DailyReport {
 	return dailyreports
 }
 
-func (conn *DailyReportConnection) Create(dailyreport domain.DailyReport) domain.DailyReport {
-	conn.dbConnect.Save(&dailyreport)
-	return dailyreport
+func (conn *DailyReportConnection) Create(dReport domain.DailyReport) domain.DailyReport {
+	conn.dbConnect.Save(&dReport)
+	return dReport
 }
 
-func (conn *DailyReportConnection) Update(dailyreport domain.DailyReport) domain.DailyReport {
-	conn.dbConnect.Omit("created_at").Save(&dailyreport)
-	return dailyreport
+func (conn *DailyReportConnection) Update(dReport domain.DailyReport) domain.DailyReport {
+	conn.dbConnect.Omit("created_at").Save(&dReport)
+	return dReport
 }
 
-func (conn *DailyReportConnection) Delete(dailyreport domain.DailyReport) {
-	conn.dbConnect.Delete(&dailyreport)
+func (conn *DailyReportConnection) Delete(dReport domain.DailyReport) {
+	conn.dbConnect.Delete(&dReport)
 }
 
 func (conn *DailyReportConnection) FindById(id uint) (domain.DailyReport, error) {
-	var dailyreport domain.DailyReport
-	conn.dbConnect.Find(&dailyreport, "id = ?", id)
-	if dailyreport.ID == 0 {
-		return dailyreport, errors.New("id not found")
+	var dReport domain.DailyReport
+	conn.dbConnect.Find(&dReport, "id = ?", id)
+	if dReport.ID == 0 {
+		return dReport, errors.New("id not found")
 	}
-	return dailyreport, nil
+	return dReport, nil
 }

@@ -29,8 +29,8 @@ func NewDailyReportController(dailyreportService service.DailyReportService) Dai
 	}
 }
 
-func (drc *dailyreportController) All(context *gin.Context) {
-	dreports := drc.dailyreportService.All()
+func (dReportController *dailyreportController) All(context *gin.Context) {
+	dreports := dReportController.dailyreportService.All()
 	webResponse := web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Success",
@@ -40,14 +40,14 @@ func (drc *dailyreportController) All(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (drc *dailyreportController) FindById(context *gin.Context) {
+func (dReportController *dailyreportController) FindById(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	dreport, err := drc.dailyreportService.FindById(uint(id))
+	dreport, err := dReportController.dailyreportService.FindById(uint(id))
 
 	const (
 		layoutISO = "2006-01-02"
@@ -86,7 +86,7 @@ func (drc *dailyreportController) FindById(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (drc *dailyreportController) Insert(context *gin.Context) {
+func (dReportController *dailyreportController) Insert(context *gin.Context) {
 	var request web.DailyReportRequest
 
 	err := context.BindJSON(&request)
@@ -97,7 +97,7 @@ func (drc *dailyreportController) Insert(context *gin.Context) {
 
 	request.User_id = 1
 
-	dreport, err := drc.dailyreportService.Create(request)
+	dreport, err := dReportController.dailyreportService.Create(request)
 
 	const (
 		layoutISO = "2006-01-02"
@@ -128,7 +128,7 @@ func (drc *dailyreportController) Insert(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (drc *dailyreportController) Update(context *gin.Context) {
+func (dReportController *dailyreportController) Update(context *gin.Context) {
 	var request web.DailyReportUpdateRequest
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
@@ -142,7 +142,7 @@ func (drc *dailyreportController) Update(context *gin.Context) {
 	if ok {
 		return
 	}
-	dreport, err := drc.dailyreportService.Update(request)
+	dreport, err := dReportController.dailyreportService.Update(request)
 
 	const (
 		layoutISO = "2006-01-02"
@@ -172,14 +172,14 @@ func (drc *dailyreportController) Update(context *gin.Context) {
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (drc *dailyreportController) Delete(context *gin.Context) {
+func (dReportController *dailyreportController) Delete(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	err = drc.dailyreportService.Delete(uint(id))
+	err = dReportController.dailyreportService.Delete(uint(id))
 	ok = helper.NotFoundError(context, err)
 	if ok {
 		return

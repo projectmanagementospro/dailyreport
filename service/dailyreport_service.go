@@ -24,11 +24,11 @@ func NewDailyReportService(dailyreportRepository repository.DailyReportRepositor
 	return &dailyreportService{dailyreportRepository: dailyreportRepository}
 }
 
-func (drs *dailyreportService) All() []domain.DailyReport {
-	return drs.dailyreportRepository.All()
+func (dReportService *dailyreportService) All() []domain.DailyReport {
+	return dReportService.dailyreportRepository.All()
 }
 
-func (drs *dailyreportService) Create(request web.DailyReportRequest) (domain.DailyReport, error) {
+func (dReportService *dailyreportService) Create(request web.DailyReportRequest) (domain.DailyReport, error) {
 	dailyreport := domain.DailyReport{}
 	err := smapping.FillStruct(&dailyreport, smapping.MapFields(&request))
 
@@ -36,16 +36,16 @@ func (drs *dailyreportService) Create(request web.DailyReportRequest) (domain.Da
 		return dailyreport, err
 	}
 
-	// _, err = drs.dailyreportRepository.IsDuplicateEmail(request.Email)
+	// _, err = dReportService.dailyreportRepository.IsDuplicateEmail(request.Email)
 	// if err != nil {
 	// 	return dailyreport, err
 	// }
-	return drs.dailyreportRepository.Create(dailyreport), nil
+	return dReportService.dailyreportRepository.Create(dailyreport), nil
 }
 
-func (drs *dailyreportService) Update(request web.DailyReportUpdateRequest) (domain.DailyReport, error) {
+func (dReportService *dailyreportService) Update(request web.DailyReportUpdateRequest) (domain.DailyReport, error) {
 	dailyreport := domain.DailyReport{}
-	res, err := drs.dailyreportRepository.FindById(request.ID)
+	res, err := dReportService.dailyreportRepository.FindById(request.ID)
 	if err != nil {
 		return dailyreport, err
 	}
@@ -55,22 +55,22 @@ func (drs *dailyreportService) Update(request web.DailyReportUpdateRequest) (dom
 	}
 	dailyreport.ReportNumber = res.ReportNumber
 	dailyreport.User_id = res.User_id
-	return drs.dailyreportRepository.Update(dailyreport), nil
+	return dReportService.dailyreportRepository.Update(dailyreport), nil
 }
 
-func (drs *dailyreportService) FindById(id uint) (domain.DailyReport, error) {
-	dailyreport, err := drs.dailyreportRepository.FindById(id)
+func (dReportService *dailyreportService) FindById(id uint) (domain.DailyReport, error) {
+	dailyreport, err := dReportService.dailyreportRepository.FindById(id)
 	if err != nil {
 		return dailyreport, err
 	}
 	return dailyreport, nil
 }
 
-func (drs *dailyreportService) Delete(id uint) error {
-	dailyreport, err := drs.dailyreportRepository.FindById(id)
+func (dReportService *dailyreportService) Delete(id uint) error {
+	dailyreport, err := dReportService.dailyreportRepository.FindById(id)
 	if err != nil {
 		return err
 	}
-	drs.dailyreportRepository.Delete(dailyreport)
+	dReportService.dailyreportRepository.Delete(dailyreport)
 	return nil
 }

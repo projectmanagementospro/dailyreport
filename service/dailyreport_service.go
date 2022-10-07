@@ -53,8 +53,7 @@ func (dReportService *dailyreportService) Update(request web.DailyReportUpdateRe
 	if err != nil {
 		return dailyreport, err
 	}
-	dailyreport.ReportNumber = res.ReportNumber
-	dailyreport.User_id = res.User_id
+	dailyreport.UserId = res.UserId
 	return dReportService.dailyreportRepository.Update(dailyreport), nil
 }
 

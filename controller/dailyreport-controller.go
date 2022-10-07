@@ -4,7 +4,6 @@ import (
 	"dailyreport/helper"
 	"dailyreport/models/web"
 	"dailyreport/service"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -59,14 +58,14 @@ func (dReportController *dailyreportController) FindById(context *gin.Context) {
 	// dreport.StartTime.Format(time.Kitchen)
 	// dreport.EndTime.Format(time.Kitchen)
 
-	t1 := dreport.StartTime
-	t2 := dreport.EndTime
+	// t1 := dreport.StartTime
+	// t2 := dreport.EndTime
 
-	fmt.Println(t1)
-	fmt.Println(t2)
-	fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
+	// fmt.Println(t1)
+	// fmt.Println(t2)
+	// fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
 
-	diff := t2.Sub(t1)
+	// diff := t2.Sub(t1)
 
 	// out := time.Time{}.Add(diff)
 	// fmt.Println(out.Format("15:04:05"))
@@ -76,12 +75,12 @@ func (dReportController *dailyreportController) FindById(context *gin.Context) {
 		return
 	}
 	webResponse := web.WebResponse{
-		Code:     http.StatusOK,
-		Status:   "Success",
-		Errors:   "",
-		Data:     dreport,
-		Date:     date.Format(layoutUS),
-		Duration: diff.String(),
+		Code:   http.StatusOK,
+		Status: "Success",
+		Errors: "",
+		Data:   dreport,
+		Date:   date.Format(layoutUS),
+		// Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
@@ -105,10 +104,10 @@ func (dReportController *dailyreportController) Insert(context *gin.Context) {
 	)
 	date := dreport.CreatedAt
 
-	t1 := dreport.StartTime
-	t2 := dreport.EndTime
-	fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
-	diff := t2.Sub(t1)
+	// t1 := dreport.StartTime
+	// t2 := dreport.EndTime
+	// fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
+	// diff := t2.Sub(t1)
 
 	// out := time.Time{}.Add(diff)
 	// fmt.Println(out.Format("15:04:05"))
@@ -118,12 +117,12 @@ func (dReportController *dailyreportController) Insert(context *gin.Context) {
 		return
 	}
 	webResponse := web.WebResponse{
-		Code:     http.StatusOK,
-		Status:   "Success",
-		Errors:   "",
-		Data:     dreport,
-		Date:     date.Format(layoutUS),
-		Duration: diff.String(),
+		Code:   http.StatusOK,
+		Status: "Success",
+		Errors: "",
+		Data:   dreport,
+		Date:   date.Format(layoutUS),
+		// Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
@@ -150,10 +149,10 @@ func (dReportController *dailyreportController) Update(context *gin.Context) {
 	)
 	date := dreport.CreatedAt
 
-	t1 := dreport.StartTime
-	t2 := dreport.EndTime
-	fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
-	diff := t2.Sub(t1)
+	// t1 := dreport.StartTime
+	// t2 := dreport.EndTime
+	// fmt.Printf("Daily reported task took %v of work.\n", t2.Sub(t1))
+	// diff := t2.Sub(t1)
 
 	// out := time.Time{}.Add(diff)
 
@@ -162,12 +161,12 @@ func (dReportController *dailyreportController) Update(context *gin.Context) {
 		return
 	}
 	webResponse := web.WebResponse{
-		Code:     http.StatusOK,
-		Status:   "Success",
-		Errors:   "",
-		Data:     dreport,
-		Date:     date.Format(layoutUS),
-		Duration: diff.String(),
+		Code:   http.StatusOK,
+		Status: "Success",
+		Errors: "",
+		Data:   dreport,
+		Date:   date.Format(layoutUS),
+		//Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }

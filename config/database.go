@@ -23,7 +23,7 @@ func NewDB() *gorm.DB {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", dbHost, dbUser, dbPass, dbName, dbPort)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	helper.PanicIfError(err)
-	db.AutoMigrate(&domain.DailyReport{})
+	db.AutoMigrate(&domain.DailyReport{}, &domain.Reports{})
 	return db
 }
 

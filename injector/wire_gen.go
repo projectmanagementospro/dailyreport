@@ -23,6 +23,15 @@ func InitDailyReport(db *gorm.DB) controller.DailyReportController {
 	return dailyReportController
 }
 
+func InitReports(db *gorm.DB) controller.ReportsController {
+	reportsRepository := repository.NewReportsRepository(db)
+	reportsService := service.NewReportsService(reportsRepository)
+	reportsController := controller.NewReportsController(reportsService)
+	return reportsController
+}
+
 // injector.go:
 
 var dailyreportSet = wire.NewSet(repository.NewDailyReportRepository, service.NewDailyReportService, controller.NewDailyReportController)
+
+var reportsSet = wire.NewSet(repository.NewReportsRepository, service.NewReportsService, controller.NewReportsController)

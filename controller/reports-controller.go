@@ -4,13 +4,15 @@ import (
 	"dailyreport/helper"
 	"dailyreport/models/web"
 	"dailyreport/service"
+	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-type DailyReportController interface {
+type ReportsController interface {
 	All(context *gin.Context)
 	FindById(context *gin.Context)
 	Insert(context *gin.Context)
@@ -18,42 +20,57 @@ type DailyReportController interface {
 	Delete(context *gin.Context)
 }
 
-type dailyreportController struct {
-	dailyreportService service.DailyReportService
+type reportsController struct {
+	reportsService service.ReportsService
 }
 
-func NewDailyReportController(dailyreportService service.DailyReportService) DailyReportController {
-	return &dailyreportController{
-		dailyreportService: dailyreportService,
+func NewReportsController(reportsService service.ReportsService) ReportsController {
+	return &reportsController{
+		reportsService: reportsService,
 	}
 }
 
-func (dReportController *dailyreportController) All(context *gin.Context) {
-	dreports := dReportController.dailyreportService.All()
+func (reportsController *reportsController) All(context *gin.Context) {
+	reports := reportsController.reportsService.All()
 	webResponse := web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Success",
 		Errors: "",
-		Data:   dreports,
+		Data:   reports,
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (dReportController *dailyreportController) FindById(context *gin.Context) {
+func (reportsController *reportsController) FindById(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	dreport, err := dReportController.dailyreportService.FindById(uint(id))
+	report, err := reportsController.reportsService.FindById(uint(id))
 
 	const (
 		layoutISO = "2006-01-02"
 		layoutUS  = "January 2, 2006"
 	)
-	date := dreport.CreatedAt
+	date := report.CreatedAt
 	// t, _ := time.Parse(layoutISO, date)
+
+	report.StartTime.Format(time.Kitchen)
+	report.EndTime.Format(time.Kitchen)
+
+	t1 := report.StartTime
+	t2 := report.EndTime
+
+	fmt.Println(t1)
+	fmt.Println(t2)
+	fmt.Printf("Reported task took %v of work.\n", t2.Sub(t1))
+
+	diff := t2.Sub(t1)
+
+	// out := time.Time{}.Add(diff)
+	// fmt.Println(out.Format("15:04:05"))
 
 	ok = helper.NotFoundError(context, err)
 	if ok {
@@ -63,15 +80,15 @@ func (dReportController *dailyreportController) FindById(context *gin.Context) {
 		Code:     http.StatusOK,
 		Status:   "Success",
 		Errors:   "",
-		Data:     dreport,
+		Data:     report,
 		Date:     date.Format(layoutUS),
-		Duration: "",
+		Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (dReportController *dailyreportController) Insert(context *gin.Context) {
-	var request web.DailyReportRequest
+func (reportsController *reportsController) Insert(context *gin.Context) {
+	var request web.ReportsRequest
 
 	err := context.BindJSON(&request)
 	ok := helper.ValidationError(context, err)
@@ -81,13 +98,21 @@ func (dReportController *dailyreportController) Insert(context *gin.Context) {
 
 	request.User_id = 1
 
-	dreport, err := dReportController.dailyreportService.Create(request)
+	report, err := reportsController.reportsService.Create(request)
 
 	const (
 		layoutISO = "2006-01-02"
 		layoutUS  = "January 2, 2006"
 	)
-	date := dreport.CreatedAt
+	date := report.CreatedAt
+
+	t1 := report.StartTime
+	t2 := report.EndTime
+	fmt.Printf("Reported task took %v of work.\n", t2.Sub(t1))
+	diff := t2.Sub(t1)
+
+	// out := time.Time{}.Add(diff)
+	// fmt.Println(out.Format("15:04:05"))
 
 	ok = helper.InternalServerError(context, err)
 	if ok {
@@ -97,15 +122,15 @@ func (dReportController *dailyreportController) Insert(context *gin.Context) {
 		Code:     http.StatusOK,
 		Status:   "Success",
 		Errors:   "",
-		Data:     dreport,
+		Data:     report,
 		Date:     date.Format(layoutUS),
-		Duration: "",
+		Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (dReportController *dailyreportController) Update(context *gin.Context) {
-	var request web.DailyReportUpdateRequest
+func (reportsController *reportsController) Update(context *gin.Context) {
+	var request web.ReportsUpdateRequest
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
@@ -118,13 +143,20 @@ func (dReportController *dailyreportController) Update(context *gin.Context) {
 	if ok {
 		return
 	}
-	dreport, err := dReportController.dailyreportService.Update(request)
+	report, err := reportsController.reportsService.Update(request)
 
 	const (
 		layoutISO = "2006-01-02"
 		layoutUS  = "January 2, 2006"
 	)
-	date := dreport.CreatedAt
+	date := report.CreatedAt
+
+	t1 := report.StartTime
+	t2 := report.EndTime
+	fmt.Printf("Reported task took %v of work.\n", t2.Sub(t1))
+	diff := t2.Sub(t1)
+
+	// out := time.Time{}.Add(diff)
 
 	ok = helper.InternalServerError(context, err)
 	if ok {
@@ -134,21 +166,21 @@ func (dReportController *dailyreportController) Update(context *gin.Context) {
 		Code:     http.StatusOK,
 		Status:   "Success",
 		Errors:   "",
-		Data:     dreport,
+		Data:     report,
 		Date:     date.Format(layoutUS),
-		Duration: "",
+		Duration: diff.String(),
 	}
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (dReportController *dailyreportController) Delete(context *gin.Context) {
+func (reportsController *reportsController) Delete(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	err = dReportController.dailyreportService.Delete(uint(id))
+	err = reportsController.reportsService.Delete(uint(id))
 	ok = helper.NotFoundError(context, err)
 	if ok {
 		return

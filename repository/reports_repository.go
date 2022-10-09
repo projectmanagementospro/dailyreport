@@ -15,39 +15,39 @@ type ReportsRepository interface {
 	FindById(id uint) (domain.Reports, error)
 }
 
-type labelConnection struct {
-	connection *gorm.DB
+type ReportsConnection struct {
+	dbConnect *gorm.DB
 }
 
-func NewReportsRepository(connection *gorm.DB) ReportsRepository {
-	return &DataConnection{connection: connection}
+func NewReportsRepository(db *gorm.DB) ReportsRepository {
+	return &ReportsConnection{dbConnect: db}
 }
 
-func (c *labelConnection) All() []domain.Reports {
-	var another []domain.Reports
-	c.connection.Find(&another)
-	return another
+func (conn *ReportsConnection) All() []domain.Reports {
+	var reports []domain.Reports
+	conn.dbConnect.Find(&reports)
+	return reports
 }
 
-func (c *labelConnection) Create(d domain.Reports) domain.Reports {
-	c.connection.Save(&d)
-	return d
+func (conn *ReportsConnection) Create(reports domain.Reports) domain.Reports {
+	conn.dbConnect.Save(&reports)
+	return reports
 }
 
-func (c *labelConnection) Update(d domain.Reports) domain.Reports {
-	c.connection.Omit("created_at").Save(&d)
-	return d
+func (conn *ReportsConnection) Update(reports domain.Reports) domain.Reports {
+	conn.dbConnect.Omit("created_at").Save(&reports)
+	return reports
 }
 
-func (c *labelConnection) Delete(d domain.Reports) {
-	c.connection.Delete(&d)
+func (conn *ReportsConnection) Delete(reports domain.Reports) {
+	conn.dbConnect.Delete(&reports)
 }
 
-func (c *labelConnection) FindById(id uint) (domain.Reports, error) {
-	var another domain.Reports
-	c.connection.Find(&another, "id = ?", id)
-	if another.ID == 0 {
-		return another, errors.New("id not found")
+func (conn *ReportsConnection) FindById(id uint) (domain.Reports, error) {
+	var reports domain.Reports
+	conn.dbConnect.Find(&reports, "id = ?", id)
+	if reports.ID == 0 {
+		return reports, errors.New("id not found")
 	}
-	return another, nil
+	return reports, nil
 }

@@ -18,9 +18,22 @@ var dailyreportSet = wire.NewSet(
 	controller.NewDailyReportController,
 )
 
+var reportsSet = wire.NewSet(
+	repository.NewReportsRepository,
+	service.NewReportsService,
+	controller.NewReportsController,
+)
+
 func InitDailyReport(db *gorm.DB) controller.DailyReportController {
 	wire.Build(
 		dailyreportSet,
+	)
+	return nil
+}
+
+func InitReports(db *gorm.DB) controller.ReportsController {
+	wire.Build(
+		reportsSet,
 	)
 	return nil
 }

@@ -55,6 +55,7 @@ func NewRouter() *gin.Engine {
 	@description Init All Route
 	*/
 	routes.NewDailyReportRoutes(db, router)
+	routes.NewReportsRoutes(db, router)
 	router.Use(middleware.ErrorHandler())
 	router.Use(cors.Default())
 

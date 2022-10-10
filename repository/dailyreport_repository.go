@@ -3,6 +3,7 @@ package repository
 import (
 	"dailyreport/models/domain"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -13,6 +14,7 @@ type DailyReportRepository interface {
 	Update(dReport domain.DailyReport) domain.DailyReport
 	Delete(dReport domain.DailyReport)
 	FindById(id uint) (domain.DailyReport, error)
+	Location(loc domain.Location) domain.Location
 }
 
 type DailyReportConnection struct {
@@ -50,4 +52,11 @@ func (conn *DailyReportConnection) FindById(id uint) (domain.DailyReport, error)
 		return dReport, errors.New("daily report id not found")
 	}
 	return dReport, nil
+}
+
+func (conn *DailyReportConnection) Location(loc domain.Location) domain.Location {
+	return domain.Location{
+		SQL:  "ST_PointFromText(?)",
+		Vars: []interface{}{fmt.Sprintf("POINT(%f %f)", loc.X, loc.Y)},
+	}
 }

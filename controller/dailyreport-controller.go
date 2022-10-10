@@ -79,7 +79,7 @@ func (dReportController *dailyreportController) Insert(context *gin.Context) {
 		return
 	}
 
-	request.User_id = 1
+	// request.UserId = 1
 
 	dreport, err := dReportController.dailyreportService.Create(request)
 

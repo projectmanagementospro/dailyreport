@@ -36,10 +36,6 @@ func (dReportService *dailyreportService) Create(request web.DailyReportRequest)
 		return dailyreport, err
 	}
 
-	// _, err = dReportService.dailyreportRepository.IsDuplicateEmail(request.Email)
-	// if err != nil {
-	// 	return dailyreport, err
-	// }
 	return dReportService.dailyreportRepository.Create(dailyreport), nil
 }
 

@@ -47,7 +47,7 @@ func (conn *DailyReportConnection) FindById(id uint) (domain.DailyReport, error)
 	var dReport domain.DailyReport
 	conn.dbConnect.Find(&dReport, "id = ?", id)
 	if dReport.ID == 0 {
-		return dReport, errors.New("id not found")
+		return dReport, errors.New("daily report id not found")
 	}
 	return dReport, nil
 }

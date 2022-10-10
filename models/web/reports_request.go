@@ -16,7 +16,7 @@ type ReportsRequest struct {
 }
 
 type ReportsUpdateRequest struct {
-	ID            uint      `json:"id" binding:"required"`
+	ID            uint
 	DailyReportId uint64    `json:"dailyreport_id" binding:"required,numeric"`
 	Name          string    `json:"name" binding:"required"`
 	Description   string    `json:"description" binding:"required"`

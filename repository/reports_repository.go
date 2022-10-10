@@ -13,7 +13,7 @@ type ReportsRepository interface {
 	Update(report domain.Reports) domain.Reports
 	Delete(report domain.Reports)
 	FindById(id uint) (domain.Reports, error)
-	IsDReportExist(id uint) (bool, error)
+	IsDReportExist(id uint) (domain.DailyReport, error)
 }
 
 type ReportsConnection struct {
@@ -53,11 +53,11 @@ func (conn *ReportsConnection) FindById(id uint) (domain.Reports, error) {
 	return reports, nil
 }
 
-func (conn *ReportsConnection) IsDReportExist(id uint) (bool, error) {
-	var reports domain.Reports
+func (conn *ReportsConnection) IsDReportExist(id uint) (domain.DailyReport, error) {
+	var reports domain.DailyReport
 	conn.dbConnect.Preload("DailyReport").Find(&reports, "id = ?", id)
-	if reports.DailyReport.ID == 0 {
-		return false, nil
+	if reports.ID == 0 {
+		return reports, errors.New("DailyReport id haven't been created yet")
 	}
-	return true, errors.New("DailyReport id haven't been created yet")
+	return reports, nil
 }

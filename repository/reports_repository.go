@@ -25,7 +25,7 @@ func NewReportsRepository(db *gorm.DB) ReportsRepository {
 
 func (conn *ReportsConnection) All() []domain.Reports {
 	var reports []domain.Reports
-	conn.dbConnect.Find(&reports)
+	conn.dbConnect.Preload("DailyReport").Find(&reports)
 	return reports
 }
 
@@ -45,7 +45,7 @@ func (conn *ReportsConnection) Delete(reports domain.Reports) {
 
 func (conn *ReportsConnection) FindById(id uint) (domain.Reports, error) {
 	var reports domain.Reports
-	conn.dbConnect.Find(&reports, "id = ?", id)
+	conn.dbConnect.Preload("DailyReport").Find(&reports, "id = ?", id)
 	if reports.ID == 0 {
 		return reports, errors.New("id not found")
 	}

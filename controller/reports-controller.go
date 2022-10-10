@@ -96,7 +96,7 @@ func (reportsController *reportsController) Insert(context *gin.Context) {
 		return
 	}
 
-	request.User_id = 1
+	// request.UserId = 1
 
 	report, err := reportsController.reportsService.Create(request)
 

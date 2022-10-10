@@ -36,6 +36,11 @@ func (reportsService *reportsService) Create(request web.ReportsRequest) (domain
 		return reports, err
 	}
 
+	_, err = reportsService.reportsRepository.IsDReportExist(request.DailyReportId)
+	if err != nil {
+		return reports, err
+	}
+
 	return reportsService.reportsRepository.Create(reports), nil
 }
 

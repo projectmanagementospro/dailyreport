@@ -1,14 +1,14 @@
 version: "3"
 services:
-  golang-project:
-    container_name: Golang-Dev
+  daily-report:
+    container_name: Daily-Report
     tty: true
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /golang-dev
+    working_dir: /daily-report
     volumes:
-      - .:/golang-dev
+      - .:/daily-report
     ports:
       - 8080:8080
     # network_mode: host

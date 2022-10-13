@@ -55,7 +55,7 @@ func (conn *ReportsConnection) FindById(id uint) (domain.Reports, error) {
 
 func (conn *ReportsConnection) IsDReportExist(id uint) (domain.DailyReport, error) {
 	var reports domain.DailyReport
-	conn.dbConnect.Preload("DailyReport").Find(&reports, "id = ?", id)
+	conn.dbConnect.Find(&reports, "id = ?", id)
 	if reports.ID == 0 {
 		return reports, errors.New("DailyReport id haven't been created yet")
 	}

@@ -6,6 +6,7 @@ import (
 
 type ReportsRequest struct {
 	DailyReportId uint      `json:"dailyreport_id" binding:"required,numeric"`
+	LocationId    uint      `json:"location_id" binding:"required,numeric"`
 	Name          string    `json:"name" binding:"required"`
 	Description   string    `json:"description" binding:"required"`
 	UserId        uint64    `json:"user_id" binding:"required"`
@@ -18,6 +19,7 @@ type ReportsRequest struct {
 type ReportsUpdateRequest struct {
 	ID            uint
 	DailyReportId uint      `json:"dailyreport_id" binding:"required,numeric"`
+	LocationId    uint      `json:"location_id" binding:"required,numeric"`
 	Name          string    `json:"name" binding:"required"`
 	Description   string    `json:"description" binding:"required"`
 	UserId        uint64    `json:"user_id" binding:"required"`

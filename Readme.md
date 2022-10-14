@@ -18,6 +18,8 @@ go get github.com/gin-contrib/cors
 go get github.com/rs/cors
 
 go get github.com/stretchr/testify
+
+go get github.com/paulmach/go.geojson
 ```
 
 ## Dependency injection
